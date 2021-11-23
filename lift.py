@@ -9,6 +9,7 @@ class Lift:
     current_level = 0
     max_floors = 5
     is_traveling = False
+    open_door_duration = 3
 
     def __init__(self, model, current_level, emergency_number):
         self.model = model
@@ -18,27 +19,29 @@ class Lift:
     def travel(self, destination_level):
         self.is_traveling = True
 
+        abs_floors = abs(destination_level - self.current_level)
+
         if destination_level > self.current_level:
 
-            print("Going up. Floors to travel: ", abs(destination_level - self.current_level))
+            print(colored(f"Going up. Floors to travel: {abs_floors}", 'magenta'))
 
-            time.sleep(abs(destination_level - self.current_level))
+            time.sleep(abs_floors)
 
             print(colored('Arrived', 'green'))
 
         elif destination_level < self.current_level:
 
-            print("Going down. Floors to travel: ", abs(destination_level - self.current_level))
+            print(colored(f"Going down. Floors to travel: {abs_floors}", 'magenta'))
 
-            time.sleep(abs(destination_level - self.current_level))
+            time.sleep(abs_floors)
 
             print(colored('Arrived', 'green'))
 
         self.current_level = destination_level
 
-        print(colored('Caution! The door is opening and closing for 2 seconds.', 'yellow'))
+        print(colored(f'Caution! The door is opening and closing for {self.open_door_duration} seconds.', 'yellow'))
 
-        time.sleep(2)
+        time.sleep(self.open_door_duration)
 
         self.is_traveling = False
 
