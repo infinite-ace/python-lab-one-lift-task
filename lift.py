@@ -1,12 +1,14 @@
 import time
 from termcolor import colored
 
+
 class Lift:
     emergency_number = ""
     model = ""
     # Zero floor represents our ground floor
     current_level = 0
     max_floors = 5
+    is_traveling = False
 
     def __init__(self, model, current_level, emergency_number):
         self.model = model
@@ -14,9 +16,11 @@ class Lift:
         self.emergency_number = emergency_number
 
     def travel(self, destination_level):
+        self.is_traveling = True
+
         if destination_level > self.current_level:
 
-            print("Going up. Floors to travel: ",  abs(destination_level - self.current_level))
+            print("Going up. Floors to travel: ", abs(destination_level - self.current_level))
 
             time.sleep(abs(destination_level - self.current_level))
 
@@ -24,7 +28,7 @@ class Lift:
 
         elif destination_level < self.current_level:
 
-            print("Going down. Floors to travel: ",  abs(destination_level - self.current_level))
+            print("Going down. Floors to travel: ", abs(destination_level - self.current_level))
 
             time.sleep(abs(destination_level - self.current_level))
 
@@ -35,3 +39,10 @@ class Lift:
         print(colored('Caution! The door is opening and closing for 2 seconds.', 'yellow'))
 
         time.sleep(2)
+
+        self.is_traveling = False
+
+    def return_to_ground_floor(self):
+        if not self.is_traveling:
+            print(colored('Going to ground floor', 'cyan'))
+            self.travel(0)
